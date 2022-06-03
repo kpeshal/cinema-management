@@ -18,3 +18,16 @@ a {
     color: unset;
 }
 
+.admin-appBar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  
+}
+
+.page-heading{
+    font-family: 'Mochiy Pop P one', sans-serif;
+    font-size: large;
+    text-align: center;
+}
+

@@ -5,9 +5,9 @@ const AdminLayout = (props) => {
   return (
     <div
       style={{
-        padding: "0px 0px 0px 285px",
+        padding: "0px 0px 0px 287px",
       }}
-      className="admin-background"
+      className="admin-background pr-2"
     >
       <SideBar />
       <Outlet />
