@@ -1,24 +1,23 @@
 import React from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-//import AppRoute from "./appRoute";
-import EmptyLayout from "../layout/emptyLayout";
-import Login from "../components/login/login";
-
-//import Appointments from "../components/appointment";
+import AdminLayout from "../layout/adminLayout";
 
 const MyRoutes = () => (
   <BrowserRouter>
     <Routes>
-      <Route element={<EmptyLayout />}>
-        <Route path="login" element={<Login />} />
-        <Route path="home" element={<Home />} />
+      <Route path="/" element={<AdminLayout />}>
+        <Route index element={<Home />} />
+        <Route path="/started" element={<Home />} />
+        <Route path="/calendar" element={<Home />} />
+        <Route path="/user" element={<Home />} />
+        <Route path="/order" element={<Home />} />
       </Route>
     </Routes>
   </BrowserRouter>
 );
 
 const Home = () => {
-  return <h1>I am Home</h1>;
+  return <div>This is a Home Page</div>;
 };
 
 export default MyRoutes;
