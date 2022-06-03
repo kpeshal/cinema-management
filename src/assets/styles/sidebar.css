@@ -3,7 +3,7 @@
     top: 0;
     left: 0;
     height: 100vh;
-    width: 320px;
+    width: 280px;
     background-color: #fff;
 }
 .sidebar__logo {
@@ -48,4 +48,8 @@
     transform: translateX(-50%);
     transition: 0.3s ease-in-out;
     
+}
+.admin-background{
+    background: #e9ecec;
+    height: 100vh;
 }
