@@ -10,10 +10,10 @@ const sidebarNavItems = [
     section: "",
   },
   {
-    display: "Getting Started",
+    display: "Movies",
     icon: <i className="bx bx-star"></i>,
-    to: "/started",
-    section: "started",
+    to: "/movies",
+    section: "movies",
   },
   {
     display: "Calendar",
@@ -63,7 +63,7 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar">
-      <div className="sidebar__logo">Animate</div>
+      <div className="sidebar__logo">Cinema</div>
       <div ref={sidebarRef} className="sidebar__menu">
         <div
           ref={indicatorRef}

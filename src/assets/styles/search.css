@@ -1,0 +1,29 @@
+.search{   
+    border-radius: 2px;
+    border: 2px;
+    border-color: black;
+    margin-right: 2px;
+    margin-left: 0px;
+    background-color: bisque;
+    width: 50px;
+}
+
+.search_searchIconWrapper{
+    padding: 2px;
+    height: 100%;
+    position: relative;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search_styledInputBase{
+    color:blueviolet;
+    padding: "1px 1px 1px 0px";
+    width: 100%;
+
+}
+
+  
+  
