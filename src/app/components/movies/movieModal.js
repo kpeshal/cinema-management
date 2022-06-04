@@ -1,181 +1,139 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
-import { MDBRow, MDBCol, MDBInput } from "mdbreact";
 import { useForm } from "react-hook-form";
+import { MDBInput } from "mdbreact";
 
-const MyModal = (props) => {
-  const { show, handleClose, modalHeading, appointment } = props;
+import TextField from "@mui/material/TextField";
 
-  const { register, handleSubmit, errors, setValue, clearError } = useForm();
+const MovieModal = (props) => {
+  const { show, handleClose, movie } = props;
 
-  const formSubmit = (formValues) => {
-    props.submit(formValues);
-  };
+  //   const { register, handleSubmit, errors, setValue, clearError } = useForm();
 
-  const handleInputChange = (e, field) => {
-    let value = e.target ? e.target.value : e;
-    if ((e.target ? e.target.validity.valid : e) || value === "") {
-      setValue(field, value);
-      appointment[field] = value;
-      clearError(field);
-    }
-  };
+  //   const formSubmit = (formValues) => {
+  //     props.submit(formValues);
+  //   };
 
-  const formBuilder = () => {
-    register({ name: "id" });
-    register({ name: "firstName" }, { required: true });
-    register({ name: "lastName" }, { required: true });
-    register({ name: "gender" }, { required: true });
-    register({ name: "nhs" }, { required: true });
-    register({ name: "appointmentDate" }, { required: true });
-    register({ name: "status" }, { required: true });
-    register(
-      { name: "email" },
-      {
-        pattern:
-          /[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?/i,
-      }
-    );
-    if (appointment) {
-      setValue([
-        { id: appointment.id },
-        { firstname: appointment.firstName },
-        { lastName: appointment.lastName },
-        { email: appointment.email },
-      ]);
-    }
-  };
+  //   const handleInputChange = (e, field) => {
+  //     let value = e.target ? e.target.value : e;
+  //     if ((e.target ? e.target.validity.valid : e) || value === "") {
+  //       setValue(field, value);
+  //       movie[field] = value;
+  //       clearError(field);
+  //     }
+  //   };
 
-  React.useEffect(() => {
-    formBuilder();
-  }, []);
+  //   const formBuilder = () => {
+  //     register({ name: "id" });
+  //     register({ name: "firstName" }, { required: true });
+  //     register({ name: "lastName" }, { required: true });
+  //     register({ name: "gender" }, { required: true });
+  //     register({ name: "nhs" }, { required: true });
+  //     register({ name: "movieDate" }, { required: true });
+  //     register({ name: "status" }, { required: true });
+  //     register(
+  //       { name: "email" },
+  //       {
+  //         pattern:
+  //           /[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?/i,
+  //       }
+  //     );
+  //     if (movie) {
+  //       setValue([
+  //         { id: movie.id },
+  //         { firstname: movie.firstName },
+  //         { lastName: movie.lastName },
+  //         { email: movie.email },
+  //       ]);
+  //     }
+  //   };
+
+  //   React.useEffect(() => {
+  //    // formBuilder();
+  //   }, []);
 
   return (
     <>
       <Modal show={show} closeButton onHide={handleClose} animation={false}>
         <Modal.Header closeButton>
-          <Modal.Title>{modalHeading}</Modal.Title>
+          <Modal.Title>Add Movie</Modal.Title>
         </Modal.Header>
-        <form onSubmit={handleSubmit(formSubmit)}>
+        <form
+        //  onSubmit={handleSubmit(formSubmit)}
+        >
           <Modal.Body>
-            <MDBRow>
-              <MDBCol size="6">
+            <div className="row mb-3">
+              <div className="col">
+                <TextField
+                  label="Title"
+                  id="outlined-size-small"
+                  defaultValue="Small"
+                  size="small"
+                />
+              </div>
+              <div className="col">
+                <TextField
+                  label="Cast"
+                  id="outlined-size-small"
+                  defaultValue="Small"
+                  size="small"
+                />
+              </div>
+            </div>
+            <div className="row mb-3">
+              <div className="col">
+                <TextField
+                  label="Duration in Minutes"
+                  id="outlined-size-small"
+                  defaultValue="Small"
+                  size="small"
+                />
+              </div>
+              <div className="col">
+                <TextField
+                  label="Genre"
+                  id="outlined-size-small"
+                  defaultValue="Small"
+                  size="small"
+                />
+              </div>
+            </div>
+            <div className="row mb-3">
+              <div className="col">
+                <TextField
+                  label="Language"
+                  id="outlined-size-small"
+                  defaultValue="Small"
+                  size="small"
+                />
+              </div>
+              <div className="col">
+                <TextField
+                  label="Director"
+                  id="outlined-size-small"
+                  defaultValue="Small"
+                  size="small"
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col">
                 <MDBInput
-                  label="First Name *"
+                  label="Description"
                   group
-                  type="text"
+                  type="textarea"
                   validate
                   error="wrong"
-                  className={errors.firstName ? "mb-2 is-invalid" : "mb-2"}
+                  className="mb-0"
+                  // className={errors.note ? "mb-2 is-invalid" : "mb-2 pt-2"}
                   size="sm"
                   success="right"
-                  name="firstName"
-                  value={appointment?.firstName ? appointment.firstName : ""}
-                  onChange={(e) => handleInputChange(e, "firstName")}
+                  name="notes"
+                  // value={data?.notes ? data.notes : ""}
+                  //  onChange={(e) => handleInputChange(e, "notes")}
                 />
-              </MDBCol>
-              <MDBCol size="6">
-                <MDBInput
-                  label="Last Name *"
-                  group
-                  type="text"
-                  validate
-                  error="wrong"
-                  className={errors.lastName ? "mb-2 is-invalid" : "mb-2"}
-                  size="sm"
-                  success="right"
-                  name="lastName"
-                  value={appointment?.lastName ? appointment.lastName : ""}
-                  onChange={(e) => handleInputChange(e, "lastName")}
-                />
-              </MDBCol>
-            </MDBRow>
-            <MDBRow>
-              <MDBCol>
-                <MDBInput
-                  label="Email"
-                  group
-                  type="text"
-                  validate
-                  error="wrong"
-                  className={errors.email ? "mb-2 is-invalid" : "mb-2"}
-                  size="sm"
-                  success="right"
-                  name="email"
-                  value={appointment?.email ? appointment.email : ""}
-                  onChange={(e) => handleInputChange(e, "email")}
-                />
-              </MDBCol>
-              <MDBCol>
-                <MDBInput
-                  label="Gender"
-                  group
-                  type="text"
-                  validate
-                  error="wrong"
-                  className={errors.gender ? "mb-2 is-invalid" : "mb-2"}
-                  size="sm"
-                  success="right"
-                  name="email"
-                  value={appointment?.gender ? appointment.gender : ""}
-                  onChange={(e) => handleInputChange(e, "gender")}
-                />
-              </MDBCol>
-            </MDBRow>
-
-            <MDBRow>
-              <MDBCol>
-                <MDBInput
-                  label="NHS"
-                  group
-                  type="text"
-                  validate
-                  error="wrong"
-                  className={errors.nhs ? "mb-2 is-invalid" : "mb-2"}
-                  size="sm"
-                  success="right"
-                  name="nhs"
-                  value={appointment?.nhs ? appointment.nhs : ""}
-                  onChange={(e) => handleInputChange(e, "nhs")}
-                />
-              </MDBCol>
-              <MDBCol>
-                <MDBInput
-                  label="Appointment Date"
-                  group
-                  type="text"
-                  validate
-                  error="wrong"
-                  className={
-                    errors.appointmentDate ? "mb-2 is-invalid" : "mb-2"
-                  }
-                  size="sm"
-                  success="right"
-                  name="appointmentDate"
-                  value={
-                    appointment?.appointmentDate
-                      ? appointment.appointmentDate
-                      : ""
-                  }
-                  onChange={(e) => handleInputChange(e, "appointmentDate")}
-                />
-              </MDBCol>
-              <MDBCol>
-                <MDBInput
-                  label="Status"
-                  group
-                  type="text"
-                  validate
-                  error="wrong"
-                  className={errors.status ? "mb-2 is-invalid" : "mb-2"}
-                  size="sm"
-                  success="right"
-                  name="status"
-                  value={appointment?.status ? appointment.status : ""}
-                  onChange={(e) => handleInputChange(e, "status")}
-                />
-              </MDBCol>
-            </MDBRow>
+              </div>
+            </div>
           </Modal.Body>
           <Modal.Footer className="d-flex justify-content-between">
             <Button variant="secondary" onClick={handleClose}>
@@ -191,4 +149,4 @@ const MyModal = (props) => {
   );
 };
 
-export default MyModal;
+export default MovieModal;
