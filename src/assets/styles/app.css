@@ -30,4 +30,8 @@ a {
     font-size: large;
     text-align: center;
 }
+.modal {
+        padding-bottom: 1px !important;
+    }
+
 
