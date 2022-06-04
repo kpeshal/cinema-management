@@ -18,80 +18,18 @@ import MenuItem from "@mui/material/MenuItem";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const list = [
-  {
-    id: 1,
-    firstName: "Jeanette",
-    lastName: "Penddreth",
-    email: "jpenddreth0@census.gov",
-    gender: "Female",
-    nhs: "825 852 5344",
-    appointmentDate: "2022/10/15",
-    status: "Confirmed",
-  },
-  {
-    id: 2,
-    firstName: "Giavani",
-    lastName: "Frediani",
-    email: "gfrediani1@senate.gov",
-    gender: "Male",
-    nhs: "794 631 7832",
-    appointmentDate: "2022/10/15",
-    status: "Unconfirmed",
-  },
-  {
-    id: 3,
-    firstName: "Noell",
-    lastName: "Bea",
-    email: "nbea2@imageshack.us",
-    gender: "Female",
-    nhs: "412 491 1467",
-    appointmentDate: "2022/10/15",
-    status: "Confirmed",
-  },
-  {
-    id: 4,
-    firstName: "Willard",
-    lastName: "Valek",
-    email: "wvalek3@vk.com",
-    gender: "Male",
-    nhs: "857 532 2257",
-    appointmentDate: "2022/10/15",
-    status: "Cancelled",
-  },
-  {
-    id: 5,
-    firstName: "Willard",
-    lastName: "Valek",
-    email: "wvalek3@vk.com",
-    gender: "Male",
-    nhs: "353 217 0477",
-    appointmentDate: "2022/10/15",
-    status: "Confirmed",
-  },
-  {
-    id: 6,
-    firstName: "Willard",
-    lastName: "Valek",
-    email: "wvalek3@vk.com",
-    gender: "Male",
-    nhs: "2563 547 7674",
-    appointmentDate: "2022/10/15",
-    status: "Confirmed",
-  },
-];
-
 const MoviesTable = (props) => {
+  const { list } = props;
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>Calories</TableCell>
-            <TableCell>Fat</TableCell>
-            <TableCell>Carbs</TableCell>
-            <TableCell>Protein</TableCell>
+            <TableCell>Title</TableCell>
+            <TableCell>Genre</TableCell>
+            <TableCell>Language</TableCell>
+            <TableCell>Duration(Mins)</TableCell>
             <TableCell />
           </TableRow>
         </TableHead>
@@ -132,10 +70,10 @@ const Row = (props) => {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell>{row.firstName}</TableCell>
-        <TableCell>{row.lastName}</TableCell>
-        <TableCell>{row.email}</TableCell>
-        <TableCell>{row.gender}</TableCell>
+        <TableCell>{row.title}</TableCell>
+        <TableCell>{row.genre}</TableCell>
+        <TableCell>{row.language}</TableCell>
+        <TableCell>{row.duration}</TableCell>
         <TableCell>
           <IconButton aria-label="Example" onClick={handleClick}>
             <MoreVertIcon />
@@ -172,7 +110,10 @@ const Row = (props) => {
               <Typography variant="h6" gutterBottom component="div">
                 Description
               </Typography>
-              I am Description
+              <em className="bold">Cast</em> &nbsp; <em>{row.cast}</em> <br />
+              <em className="bold">Director</em> &nbsp; <em>{row.director}</em>{" "}
+              <br />
+              <em>{row.description}</em>
             </Box>
           </Collapse>
         </TableCell>
