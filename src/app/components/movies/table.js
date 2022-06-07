@@ -19,7 +19,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const MoviesTable = (props) => {
-  const { list } = props;
+  const { list, editMovie } = props;
+
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
@@ -35,7 +36,7 @@ const MoviesTable = (props) => {
         </TableHead>
         <TableBody>
           {list.map((row) => (
-            <Row key={row.id} row={row} />
+            <Row key={row.id} row={row} handleEdit={editMovie} />
           ))}
         </TableBody>
       </Table>
@@ -44,7 +45,7 @@ const MoviesTable = (props) => {
 };
 
 const Row = (props) => {
-  const { row, key } = props;
+  const { row, key, handleEdit } = props;
   const [open, setOpen] = useState(false);
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -56,6 +57,15 @@ const Row = (props) => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const onEditClick = (data) => {
+    handleClose();
+    handleEdit(data);
+  };
+
+  const handleDelete = (data) => {
+    handleClose();
   };
 
   return (
@@ -92,11 +102,11 @@ const Row = (props) => {
               },
             }}
           >
-            <MenuItem key={1} onClick={handleClose}>
+            <MenuItem key={1} onClick={() => onEditClick(row)}>
               <EditIcon color="primary" />
               &nbsp;Edit
             </MenuItem>
-            <MenuItem key={2} onClick={handleClose}>
+            <MenuItem key={2} onClick={handleDelete}>
               <DeleteIcon color="danger" />
               &nbsp;Delete
             </MenuItem>
