@@ -5,6 +5,8 @@ import LoginForm from "./loginForm";
 import SignUpForm from "./signupForm";
 
 import * as authService from "../../service/authService";
+import { decodeToken } from "../../util/decoder";
+import { set, get, clear } from "../../util/storageUtil";
 
 const Login = (props) => {
   const [isLogin, setIsLogin] = useState(true);
@@ -22,7 +24,9 @@ const Login = (props) => {
       })
       .then((response) => {
         if (response.data && response.status === "success") {
-          //  this.setInLocalStorage(response);
+          set("local", "loggedInUser", response.data.token);
+          let user = decodeToken(response.data.token);
+          set("local", "role", user.role);
           navigate("/movies");
         } else {
           alert(response.message);

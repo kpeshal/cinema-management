@@ -3,6 +3,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import AdminLayout from "../layout/adminLayout";
 import Movies from "../components/movies";
 import Login from "../components/login";
+import NowShowing from "../components/booking";
 
 const MyRoutes = () => (
   <BrowserRouter>
@@ -14,6 +15,7 @@ const MyRoutes = () => (
         <Route path="/calendar" element={<Home />} />
         <Route path="/user" element={<Home />} />
         <Route path="/order" element={<Home />} />
+        <Route path="/nowshowing" element={<NowShowing />} />
       </Route>
     </Routes>
   </BrowserRouter>
