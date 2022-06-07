@@ -1,81 +1,129 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { MDBInput } from "mdbreact";
 
 import TextField from "@mui/material/TextField";
+import CircularProgress from "@mui/material/CircularProgress";
+import LinearProgress from "@mui/material/LinearProgress";
+import * as movieService from "../../service/movieService";
+import Toast from "../../common/toast";
 
 const MovieModal = (props) => {
   const { show, handleClose, movie } = props;
+  const [submitted, setSubmitted] = useState(false);
+  const [toast, setToast] = useState({
+    type: "success",
+    message: "",
+    show: false,
+  });
 
-  //   const { register, handleSubmit, errors, setValue, clearError } = useForm();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    clearError,
+    formState: { errors },
+  } = useForm();
 
-  //   const formSubmit = (formValues) => {
-  //     props.submit(formValues);
-  //   };
+  const onSubmit = (formValues) => {
+    saveMovie(formValues);
+  };
 
-  //   const handleInputChange = (e, field) => {
-  //     let value = e.target ? e.target.value : e;
-  //     if ((e.target ? e.target.validity.valid : e) || value === "") {
-  //       setValue(field, value);
-  //       movie[field] = value;
-  //       clearError(field);
-  //     }
-  //   };
+  const saveMovie = async (data) => {
+    setSubmitted(true);
+    movieService
+      .saveMovie(data)
+      .then(
+        (response) => {
+          if (response.status === "success") {
+            props.saveHandler(response.data);
+            setToast({ type: "success", message: "Movie Updated", show: true });
+          } else {
+            setToast({
+              type: "error",
+              message: "Movie Update Failed",
+              show: true,
+            });
+            console.log("Saving new movie failed", response);
+          }
+        },
+        (error) => {
+          // showToast("error", "Movie Saving Failed");
+          console.log("Saving new movie failed", error);
+        }
+      )
+      .finally(() => {
+        setSubmitted(false);
+      });
+  };
 
-  //   const formBuilder = () => {
-  //     register({ name: "id" });
-  //     register({ name: "firstName" }, { required: true });
-  //     register({ name: "lastName" }, { required: true });
-  //     register({ name: "gender" }, { required: true });
-  //     register({ name: "nhs" }, { required: true });
-  //     register({ name: "movieDate" }, { required: true });
-  //     register({ name: "status" }, { required: true });
-  //     register(
-  //       { name: "email" },
-  //       {
-  //         pattern:
-  //           /[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?/i,
-  //       }
-  //     );
-  //     if (movie) {
-  //       setValue([
-  //         { id: movie.id },
-  //         { firstname: movie.firstName },
-  //         { lastName: movie.lastName },
-  //         { email: movie.email },
-  //       ]);
-  //     }
-  //   };
+  const handleInputChange = (e, field) => {
+    let value = e.target ? e.target.value : e;
+    if ((e.target ? e.target.validity.valid : e) || value === "") {
+      setValue(field, value);
+      // movie[field] = value;
+      // clearError(field);
+    }
+  };
 
-  //   React.useEffect(() => {
-  //    // formBuilder();
-  //   }, []);
+  const formBuilder = () => {
+    register("id");
+    register("title", { required: false });
+    register("cast", { required: false });
+    register("director", { required: false });
+    register("duration", { required: false }, { min: 0 });
+    register("genre", { required: false });
+    register("language", { required: false });
+    register("description");
+    if (movie) {
+      setValue("id", movie.id);
+      setValue("title", movie.title);
+      setValue("cast", movie.cast);
+      setValue("director", movie.director);
+      setValue("duration", movie.duration);
+      setValue("genre", movie.genre);
+      setValue("language", movie.language);
+      setValue("description", movie.description);
+    }
+  };
+
+  React.useEffect(() => {
+    formBuilder();
+  }, []);
 
   return (
     <>
+      {toast.show && <Toast type={toast.type} message={toast.message} />}
       <Modal show={show} closeButton onHide={handleClose} animation={false}>
         <Modal.Header closeButton>
           <Modal.Title>Add Movie</Modal.Title>
         </Modal.Header>
-        <form
-        //  onSubmit={handleSubmit(formSubmit)}
-        >
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Modal.Body>
             <div className="row mb-3">
               <div className="col">
                 <TextField
                   label="Title"
-                  id="outlined-size-small"
-                  defaultValue="Small"
+                  id="title"
+                  name="title"
+                  onChange={(e) => handleInputChange(e, "title")}
+                  defaultValue={movie.title ? movie.title : ""}
+                  validate
+                  type="text"
                   size="small"
                 />
               </div>
               <div className="col">
                 <TextField
                   label="Cast"
-                  id="outlined-size-small"
-                  defaultValue="Small"
+                  id="cast"
+                  name="cast"
+                  onChange={(e) => handleInputChange(e, "cast")}
+                  defaultValue={movie.cast ? movie.cast : ""}
+                  validate
+                  type="text"
                   size="small"
                 />
               </div>
@@ -84,16 +132,24 @@ const MovieModal = (props) => {
               <div className="col">
                 <TextField
                   label="Duration in Minutes"
-                  id="outlined-size-small"
-                  defaultValue="Small"
+                  id="duration"
+                  name="duration"
+                  onChange={(e) => handleInputChange(e, "duration")}
+                  defaultValue={movie.duration ? movie.duration : ""}
+                  validate
+                  type="number"
                   size="small"
                 />
               </div>
               <div className="col">
                 <TextField
                   label="Genre"
-                  id="outlined-size-small"
-                  defaultValue="Small"
+                  id="genre"
+                  name="genre"
+                  onChange={(e) => handleInputChange(e, "genre")}
+                  defaultValue={movie.genre ? movie.genre : ""}
+                  validate
+                  type="text"
                   size="small"
                 />
               </div>
@@ -102,16 +158,24 @@ const MovieModal = (props) => {
               <div className="col">
                 <TextField
                   label="Language"
-                  id="outlined-size-small"
-                  defaultValue="Small"
+                  id="language"
+                  name="language"
+                  onChange={(e) => handleInputChange(e, "language")}
+                  defaultValue={movie.language ? movie.language : ""}
+                  validate
+                  type="text"
                   size="small"
                 />
               </div>
               <div className="col">
                 <TextField
                   label="Director"
-                  id="outlined-size-small"
-                  defaultValue="Small"
+                  id="director"
+                  name="director"
+                  onChange={(e) => handleInputChange(e, "director")}
+                  defaultValue={movie.director ? movie.director : ""}
+                  validate
+                  type="text"
                   size="small"
                 />
               </div>
@@ -122,26 +186,31 @@ const MovieModal = (props) => {
                   label="Description"
                   group
                   type="textarea"
-                  validate
                   error="wrong"
                   className="mb-0"
                   // className={errors.note ? "mb-2 is-invalid" : "mb-2 pt-2"}
                   size="sm"
                   success="right"
                   name="notes"
-                  // value={data?.notes ? data.notes : ""}
-                  //  onChange={(e) => handleInputChange(e, "notes")}
+                  value={movie?.description ? movie.description : ""}
+                  //  onChange={(e) => handleInputChange(e, "description")}
                 />
               </div>
             </div>
           </Modal.Body>
           <Modal.Footer className="d-flex justify-content-between">
-            <Button variant="secondary" onClick={handleClose}>
-              Cancel
-            </Button>
-            <Button variant="primary" type="submit">
-              Save
-            </Button>
+            {submitted ? (
+              <LinearProgress color="success" />
+            ) : (
+              <>
+                <Button variant="secondary" onClick={handleClose}>
+                  Cancel
+                </Button>
+                <Button variant="primary" type="submit">
+                  Save
+                </Button>
+              </>
+            )}
           </Modal.Footer>
         </form>
       </Modal>

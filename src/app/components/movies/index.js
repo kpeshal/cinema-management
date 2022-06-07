@@ -38,8 +38,22 @@ const Movies = (props) => {
       });
   };
 
+  const saveHandler = (data) => {
+    let updatedList = [];
+
+    if (state.movieList.find((x) => x.id === data.id)) {
+      let previousList = [...state.movieList];
+      updatedList = previousList.map((x) =>
+        x.id === data.id ? Object.assign({}, data) : x
+      );
+    } else {
+      updatedList = [data, ...state.movieList];
+    }
+    setState({ ...state, movieList: updatedList });
+    handleCloseModal();
+  };
+
   const handleAddMovie = () => {
-    console.log("Add Clicked");
     setMovie({});
     setShowModal(true);
   };
@@ -47,6 +61,11 @@ const Movies = (props) => {
   const handleCloseModal = () => {
     setMovie({});
     setShowModal(false);
+  };
+
+  const handleEditMovie = (data) => {
+    setMovie(data);
+    setShowModal(true);
   };
 
   return (
@@ -58,12 +77,15 @@ const Movies = (props) => {
           <AddIcon />
         </Button>
       </div>
-      <MoviesTable list={state.movieList} />
-      <MovieModal
-        show={showModal}
-        handleClose={handleCloseModal}
-        movie={movie}
-      />
+      <MoviesTable list={state.movieList} editMovie={handleEditMovie} />
+      {showModal && (
+        <MovieModal
+          show={showModal}
+          handleClose={handleCloseModal}
+          movie={movie}
+          saveHandler={saveHandler}
+        />
+      )}
     </React.Fragment>
   );
 };

@@ -13,19 +13,9 @@ export function fetchAllMovies() {
 }
 
 export function saveMovie(data) {
+  console.log(data);
   return httpService
-    .post(APICONSTANTS.MOVIE, data)
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {
-      throw error;
-    });
-}
-
-export function updateMovie(data) {
-  return httpService
-    .put(APICONSTANTS.MOVIE, data)
+    .post(`${APICONSTANTS.MOVIE}/save`, data)
     .then((response) => {
       return response.data;
     })
