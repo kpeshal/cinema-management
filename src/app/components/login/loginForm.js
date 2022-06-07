@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-const LoginForm = () => {
+const LoginForm = (props) => {
   const {
     register,
     formState: { errors },
@@ -16,8 +16,7 @@ const LoginForm = () => {
   };
 
   const onSubmit = (data) => {
-    console.log(data);
-    console.log(errors);
+    props.onSubmit(data);
     // handleLogin();
   };
 

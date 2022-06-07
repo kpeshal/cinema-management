@@ -1,13 +1,33 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import LoginForm from "./loginForm";
 import SignUpForm from "./signupForm";
 
-const Login = () => {
+import * as authService from "../../service/authService";
+
+const Login = (props) => {
   const [isLogin, setIsLogin] = useState(true);
+  const navigate = useNavigate();
 
   const handleSignUpClick = () => {
     setIsLogin(!isLogin);
+  };
+
+  const onSubmitHandler = (model) => {
+    authService
+      .login(model)
+      .finally(() => {
+        // this.setState({ submittingForm: false });
+      })
+      .then((response) => {
+        if (response.data && response.status === "success") {
+          //  this.setInLocalStorage(response);
+          navigate("/movies");
+        } else {
+          alert(response.message);
+        }
+      });
   };
 
   return (
@@ -28,7 +48,11 @@ const Login = () => {
                   </div>
                   <div className="col-md-6 col-lg-7 d-flex align-items-center">
                     <div className="card-body p-4 p-lg-5 text-black">
-                      {isLogin ? <LoginForm /> : <SignUpForm />}
+                      {isLogin ? (
+                        <LoginForm onSubmit={onSubmitHandler} />
+                      ) : (
+                        <SignUpForm />
+                      )}
 
                       <a
                         className="d-flex justify-content-center small text-muted mb-2"
