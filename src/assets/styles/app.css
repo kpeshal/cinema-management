@@ -37,5 +37,10 @@ a {
 .bold {
         font-weight: bold;
       }   
-
+.error_message {
+    color:rgb(220, 83, 24);
+    font-weight: 50;
+    font-style: italic;
+    
+}
 
