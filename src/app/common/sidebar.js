@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-//import './sidebar.scss';
+import { decodeToken } from "../../app/util/decoder";
+import { set, get, clear } from "../../app/util/storageUtil";
 
 const sidebarNavItems = [
   {
@@ -8,36 +9,42 @@ const sidebarNavItems = [
     icon: <i className="bx bx-home"></i>,
     to: "/",
     section: "",
+    role: "admin",
   },
   {
     display: "Movies",
     icon: <i className="bx bx-star"></i>,
     to: "/movies",
     section: "movies",
+    role: "all",
   },
   {
-    display: "Calendar",
+    display: "Now Showing",
     icon: <i className="bx bx-calendar"></i>,
-    to: "/calendar",
-    section: "calendar",
+    to: "/nowshowing",
+    section: "nowshowing",
+    role: "all",
   },
   {
     display: "User",
     icon: <i className="bx bx-user"></i>,
     to: "/user",
     section: "user",
+    role: "admin",
   },
   {
     display: "Orders",
     icon: <i className="bx bx-receipt"></i>,
     to: "/order",
     section: "order",
+    role: "user",
   },
 ];
 
 const Sidebar = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [stepHeight, setStepHeight] = useState(0);
+  const [menu, setMenu] = useState([]);
   const sidebarRef = useRef();
   const indicatorRef = useRef();
   const location = useLocation();
@@ -55,11 +62,22 @@ const Sidebar = () => {
   // change active index
   useEffect(() => {
     const curPath = window.location.pathname.split("/")[1];
-    const activeItem = sidebarNavItems.findIndex(
-      (item) => item.section === curPath
-    );
+    const activeItem = menu.findIndex((item) => item.section === curPath);
     setActiveIndex(curPath.length === 0 ? 0 : activeItem);
   }, [location]);
+
+  useEffect(() => {
+    let menu = sidebarNavItems;
+    const role = get("local", "role");
+    if (role === "admin") {
+      menu = menu.filter((x) => !(x.role === "user"));
+      console.log(menu);
+    } else {
+      menu = menu.filter((x) => !(x.role === "user"));
+    }
+
+    setMenu(menu);
+  }, []);
 
   return (
     <div className="sidebar">
@@ -74,7 +92,8 @@ const Sidebar = () => {
             }px)`,
           }}
         ></div>
-        {sidebarNavItems.map((item, index) => (
+
+        {menu.map((item, index) => (
           <Link to={item.to} key={index} className="text-decoration-none">
             <div
               className={`sidebar__menu__item ${
