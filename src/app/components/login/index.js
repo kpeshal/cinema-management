@@ -5,6 +5,7 @@ import LoginForm from "./loginForm";
 import SignUpForm from "./signupForm";
 
 import * as authService from "../../service/authService";
+import * as userService from "../../service/userService";
 import { decodeToken } from "../../util/decoder";
 import { set, get, clear } from "../../util/storageUtil";
 
@@ -34,6 +35,20 @@ const Login = (props) => {
       });
   };
 
+  const onRegisterHandler = (model) => {
+    userService
+      .saveUser(model)
+      .finally(() => {})
+      .then((response) => {
+        if (response.data && response.status === "success") {
+          alert("Registered as Star Movies User. Please Log In");
+          handleSignUpClick();
+        } else {
+          alert(response.message);
+        }
+      });
+  };
+
   return (
     <div>
       <section className="vh-100" style={{ backgroundColor: "#9A616D" }}>
@@ -55,7 +70,7 @@ const Login = (props) => {
                       {isLogin ? (
                         <LoginForm onSubmit={onSubmitHandler} />
                       ) : (
-                        <SignUpForm />
+                        <SignUpForm handleRegister={onRegisterHandler} />
                       )}
 
                       <a

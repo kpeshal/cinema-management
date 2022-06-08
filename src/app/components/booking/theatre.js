@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Grid from "@material-ui/core/Grid";
-
-import Col from "react-bootstrap/Col";
-import Seats from "./seats";
+import * as seatService from "../../service/seatService";
 
 const createSeats = (rows, startIndex) => {
   let i = 0;
@@ -31,8 +28,28 @@ const TheatreOne = (props) => {
     setBookedSeats([...bookedSeats, e.target.innerText]);
   };
 
+  const fetchBookedSeats = () => {
+    let query = {};
+    query.movieId = 2;
+    query.theatreName = "Theatre1";
+    seatService
+      .fetchAllSeatsByTheatreAndMovie(query)
+      .then((result) => {
+        if (result.status === "success" && result.data.length > 0) {
+          let bookedSeats = result.data.map((x) => {
+            return x.seatNo;
+          });
+          setBookedSeats(bookedSeats);
+        }
+      })
+      .catch((error) => {
+        console.log("Error fetching seats list", error);
+      });
+  };
+
   useEffect(() => {
     setSeats(createSeats(8, 1));
+    fetchBookedSeats();
   }, []);
 
   return (

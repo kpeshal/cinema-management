@@ -68,12 +68,12 @@ const Sidebar = () => {
 
   useEffect(() => {
     let menu = sidebarNavItems;
-    const role = get("local", "role");
+    const role = get("local", "role").toLowerCase();
     if (role === "admin") {
       menu = menu.filter((x) => !(x.role === "user"));
       console.log(menu);
     } else {
-      menu = menu.filter((x) => !(x.role === "user"));
+      menu = menu.filter((x) => !(x.role === "admin"));
     }
 
     setMenu(menu);

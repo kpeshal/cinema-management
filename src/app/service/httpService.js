@@ -10,7 +10,6 @@ const setHeader = (config) => {
       Object.assign(config, {
         headers: {
           ...config.headers,
-          requestsource: appConfig.apiRequestSource,
         },
       })
     )

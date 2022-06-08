@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 
-const SignUpForm = () => {
+const SignUpForm = (props) => {
   const {
     register,
     formState: { errors },
@@ -16,6 +16,8 @@ const SignUpForm = () => {
 
   const formBuilder = () => {
     register("email", { required: "Email is Required" });
+    register("firstName", { required: "First Name Required" });
+    register("lastName", { required: "Last Name Required" });
     register("password", {
       required: "You must specify a password",
       minLength: {
@@ -31,7 +33,7 @@ const SignUpForm = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    console.log(errors);
+    props.handleRegister(data);
     // handleLogin();
   };
 
@@ -50,7 +52,7 @@ const SignUpForm = () => {
   return (
     <React.Fragment>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="d-flex align-items-center mb-3 pb-1">
+        <div className="d-flex align-items-center mb-1 mt-0 pb-1">
           <i
             className="fas fa-cubes fa-2x me-3"
             style={{ color: "#ff6219" }}
@@ -58,11 +60,7 @@ const SignUpForm = () => {
           <span className="h1 fw-bold mb-0"> Star Cinema</span>
         </div>
 
-        <h4 className="fw-normal mb-3" style={{ letterSpacing: "1px" }}>
-          Sign Up For Star Cinema
-        </h4>
-
-        <div className="form-outline mb-2">
+        <div className="form-outline mb-1">
           <label className="form-label" for="email">
             Email address
           </label>
@@ -76,6 +74,39 @@ const SignUpForm = () => {
           {errors.email && (
             <p className="error_message"> {errors.email.message}</p>
           )}
+        </div>
+
+        <div className="d-flex justify-content-between mb-1 p-1 ">
+          <div className="form-outline mr-2">
+            <label className="form-label" for="email">
+              First Name
+            </label>
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              className="form-control form-control-lg"
+              onChange={(e) => handleInputChange(e, "firstName")}
+            />
+            {/* {errors.email && (
+              <p className="error_message"> {errors.email.message}</p>
+            )} */}
+          </div>
+          <div className="form-outline ">
+            <label className="form-label" for="email">
+              Last Name
+            </label>
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              className="form-control form-control-lg"
+              onChange={(e) => handleInputChange(e, "lastName")}
+            />
+            {errors.email && (
+              <p className="error_message"> {errors.email.message}</p>
+            )}
+          </div>
         </div>
 
         <div className="form-outline mb-2">

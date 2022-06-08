@@ -4,6 +4,7 @@ import AdminLayout from "../layout/adminLayout";
 import Movies from "../components/movies";
 import Login from "../components/login";
 import NowShowing from "../components/booking";
+import User from "../components/user";
 
 const MyRoutes = () => (
   <BrowserRouter>
@@ -13,7 +14,7 @@ const MyRoutes = () => (
         <Route index element={<Home />} />
         <Route path="/movies" element={<Movies />} />
         <Route path="/calendar" element={<Home />} />
-        <Route path="/user" element={<Home />} />
+        <Route path="/user" element={<User />} />
         <Route path="/order" element={<Home />} />
         <Route path="/nowshowing" element={<NowShowing />} />
       </Route>
