@@ -3,6 +3,7 @@ import Search from "../../common/search";
 
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
+import TheatreOne from "./theatre";
 
 const NowShowing = (props) => {
   return (
@@ -14,6 +15,7 @@ const NowShowing = (props) => {
           <AddIcon />
         </Button>
       </div>
+      <TheatreOne />
     </React.Fragment>
   );
 };
