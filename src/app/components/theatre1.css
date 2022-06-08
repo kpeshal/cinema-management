@@ -13,7 +13,7 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.th1-seat{
+.th1-seat {
     background-color: white;
     height: 12px;
     width: 12px;
@@ -21,31 +21,21 @@ body {
     border-radius: 50%;
 }
 
-.th1-seat-or{
-    background-color: orange;
-    height: 12px;
-    width: 12px;
-    margin: 3px;
-    border-radius: 50%;
+.or {
+    background-color: orange;    
 }
 
-.th1-seat-bl{
-    background-color: turquoise;
-    height: 12px;
-    width: 12px;
-    margin: 3px;
-    border-radius: 50%;
+
+.bl {
+    background-color: turquoise;    
 }
 
-.th1-seat-gr{
-    background-color: green;
-    height: 12px;
-    width: 12px;
-    margin: 3px;
-    border-radius: 50%;
+
+.gr {
+    background-color: green;    
 }
 
-.seat-row{
+.seat-row {
     display: flex;
 }
 
@@ -73,19 +63,27 @@ body {
     background-color: red;
 }
 
-.th1-seat-or:not(.seat-booked):hover {
+
+.or:not(.seat-booked):hover {
     cursor: pointer;
     transform: scale(1.2);
 }
 
-.th1-seat-bl:not(.seat-booked):hover {
+.bl:not(.seat-booked):hover {
     cursor: pointer;
     transform: scale(1.2);
 }
 
-.th1-seat-gr:not(.seat-booked):hover {
+.gr:not(.seat-booked):hover {
     cursor: pointer;
     transform: scale(1.2);
+}
+
+
+
+.seat-status .th1-seat:not(.seat-booked):hover {
+    cursor: default;
+    transform: scale(1);
 }
 
 .seat-status {
@@ -117,7 +115,7 @@ body {
     box-shadow: 0 3px 9px rgba(255, 255, 255, 0.75);
 }
 
-.screen-container {
+.screen-seat-container {
     perspective: 1400px;
 }
 
