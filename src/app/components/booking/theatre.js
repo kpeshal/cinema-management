@@ -20,12 +20,56 @@ const createSeats = (rows, startIndex) => {
 };
 
 const TheatreOne = (props) => {
-  // const [availableSeats, setAvailableSeats] = useState([]);
-  const [bookedSeats, setBookedSeats] = useState([]);
+  const [blockedSeat, setBlockedSeat] = useState([]);
+  const [bookedSeats, setBookedSeats] = useState(["1C"]);
   const [seats, setSeats] = useState([]);
 
   const addSeat = (e) => {
     setBookedSeats([...bookedSeats, e.target.innerText]);
+    computeAvailableSeat();
+  };
+
+  const getSeatCSS = (x) => {
+    if (bookedSeats.includes(x)) return "th1-seat-or";
+    if (blockedSeat.includes(x)) return "th1-seat-restricted";
+    return "th1-seat-gr";
+  };
+
+  const computeAvailableSeat = () => {
+    let noOfBlockedSeat = [];
+    if (bookedSeats.length > 0 && bookedSeats.length < 48) {
+      let uncensoredSeats = [];
+      bookedSeats.map((seatNo) => {
+        return new Promise((resolve, reject) => {
+          let rowNo = seatNo.charAt(0);
+          let columnNo = seatNo.charAt(1);
+          uncensoredSeats.push(
+            rowNo + String.fromCharCode(columnNo.charCodeAt() + 1)
+          );
+          uncensoredSeats.push(
+            rowNo + String.fromCharCode(columnNo.charCodeAt() - 1)
+          );
+          uncensoredSeats.push(rowNo + "A");
+          uncensoredSeats.push(rowNo + "L");
+          resolve();
+        });
+      });
+      let totalUncensoredSeats = Array.from(new Set(uncensoredSeats));
+
+      let totalAvailableSeatToBook = seats.filter(
+        (x) => !bookedSeats.includes(x)
+      );
+      noOfBlockedSeat = totalAvailableSeatToBook.filter(
+        (x) => !totalUncensoredSeats.includes(x)
+      );
+
+      let rowsWithSeatBooked = bookedSeats.map(([v]) => v);
+
+      noOfBlockedSeat = noOfBlockedSeat.filter((x) =>
+        rowsWithSeatBooked.includes(x.charAt(0))
+      );
+    }
+    setBlockedSeat(noOfBlockedSeat);
   };
 
   const fetchBookedSeats = () => {
@@ -41,6 +85,9 @@ const TheatreOne = (props) => {
           });
           setBookedSeats(bookedSeats);
         }
+      })
+      .finally(() => {
+        computeAvailableSeat();
       })
       .catch((error) => {
         console.log("Error fetching seats list", error);
@@ -59,12 +106,7 @@ const TheatreOne = (props) => {
         <div className="seat_section">
           {seats &&
             seats.map((x) => (
-              <div
-                className={
-                  bookedSeats.includes(x) ? "th1-seat-or" : "th1-seat-gr"
-                }
-                onClick={addSeat}
-              >
+              <div className={getSeatCSS(x)} onClick={addSeat}>
                 {x}
               </div>
             ))}

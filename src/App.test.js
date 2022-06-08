@@ -1,8 +1,10 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import React from "react";
+import { render, screen, fireEvent } from "@testing-library/react";
+import LoginForm from "./app/components/login/loginForm";
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+describe("LoginForm", () => {
+  it("should have a submit button", async () => {
+    render(<LoginForm />);
+    expect(screen.getByText("Login")).toBeInTheDocument();
+  });
 });
