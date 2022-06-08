@@ -1,8 +1,7 @@
 import * as storageUtil from "../util/storageUtil";
 
 export function getAccessToken() {
-  // return storageUtil.get("local", "loggedInUser");
-  return null;
+  return storageUtil.get("local", "loggedInUser");
 }
 
 const getHeader = (headers) => {
@@ -15,7 +14,7 @@ export function assignToken(config) {
   let headers = config.headers ? config.headers : {};
   if (accessToken) {
     headers = getHeader(headers);
-    headers["Authorization"] = `Bearer ${accessToken}`;
+    headers["Authorization"] = accessToken;
   }
   if (headers) config = Object.assign(config, { headers: headers });
   return config;
