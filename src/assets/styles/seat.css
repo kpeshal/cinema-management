@@ -87,10 +87,23 @@ body {
 }
 
 .th1-seat-or{
-  background-color: orange;
+  background-color: rgb(236, 128, 27);
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 35px;
+  width: 35px;
+  margin: 3px;
+  border-radius: 50%;
+}
+
+.th1-seat-restricted{
+  background-color: rgb(184, 183, 181);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  opacity: 0.5;
   height: 35px;
   width: 35px;
   margin: 3px;
