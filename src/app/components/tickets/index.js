@@ -3,11 +3,11 @@ import Search from "../../common/search";
 import UserTable from "./table";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
-import UserModel from "./userModel";
+import TicketModel from "./ticketModel";
 
 import * as userService from "../../service/userService";
 
-const User = (props) => {
+const Tickets = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [state, setState] = useState({ loading: false, userList: [] });
   const [movie, setMovie] = useState({});
@@ -70,7 +70,7 @@ const User = (props) => {
 
   return (
     <React.Fragment>
-      <h2 className="pt-2 page-heading"> Users</h2>
+      <h2 className="pt-2 page-heading"> My Tickets</h2>
       <div className="pb-3 mt-2 admin-appBar">
         <Search />
         <Button variant="contained" onClick={handleAddMovie}>
@@ -78,16 +78,16 @@ const User = (props) => {
         </Button>
       </div>
       <UserTable list={state.userList} editMovie={handleEditMovie} />
-      {showModal && (
+      {/* {showModal && (
         <UserModel
           show={showModal}
           handleClose={handleCloseModal}
           movie={movie}
           saveHandler={saveHandler}
         />
-      )}
+      )} */}
     </React.Fragment>
   );
 };
 
-export default User;
+export default Tickets;

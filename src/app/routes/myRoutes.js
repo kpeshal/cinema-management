@@ -5,6 +5,7 @@ import Movies from "../components/movies";
 import Login from "../components/login";
 import NowShowing from "../components/booking";
 import User from "../components/user";
+import Tickets from "../components/tickets";
 
 const MyRoutes = () => (
   <BrowserRouter>
@@ -15,7 +16,7 @@ const MyRoutes = () => (
         <Route path="/movies" element={<Movies />} />
         <Route path="/calendar" element={<Home />} />
         <Route path="/user" element={<User />} />
-        <Route path="/order" element={<Home />} />
+        <Route path="/tickets" element={<Tickets />} />
         <Route path="/nowshowing" element={<NowShowing />} />
       </Route>
     </Routes>

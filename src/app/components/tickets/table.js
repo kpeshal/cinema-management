@@ -15,10 +15,9 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import CancelIcon from "@mui/icons-material/Cancel";
 
-const MoviesTable = (props) => {
+const UserTable = (props) => {
   const { list, editMovie } = props;
 
   return (
@@ -26,18 +25,16 @@ const MoviesTable = (props) => {
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            <TableCell />
-            <TableCell>Title</TableCell>
-            <TableCell>Genre</TableCell>
-            <TableCell>Language</TableCell>
-            <TableCell>Duration(Mins)</TableCell>
-            <TableCell>Price ($)</TableCell>
+            <TableCell>Username</TableCell>
+            <TableCell>First name</TableCell>
+            <TableCell>Last Name</TableCell>
+            <TableCell>Role</TableCell>
             <TableCell />
           </TableRow>
         </TableHead>
         <TableBody>
           {list.map((row) => (
-            <Row key={row.id} row={row} handleEdit={editMovie} />
+            <Row key={row.userId} row={row} handleEdit={editMovie} />
           ))}
         </TableBody>
       </Table>
@@ -60,32 +57,15 @@ const Row = (props) => {
     setAnchorEl(null);
   };
 
-  const onEditClick = (data) => {
-    handleClose();
-    handleEdit(data);
-  };
-
-  const handleDelete = (data) => {
-    handleClose();
-  };
+  const handleCancel = (data) => {};
 
   return (
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }} key={key}>
-        <TableCell>
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
-        <TableCell>{row.title}</TableCell>
-        <TableCell>{row.genre}</TableCell>
-        <TableCell>{row.language}</TableCell>
-        <TableCell>{row.duration}</TableCell>
-        <TableCell>{row.price}</TableCell>
+        <TableCell>{row.email}</TableCell>
+        <TableCell>{row.firstName}</TableCell>
+        <TableCell>{row.lastName}</TableCell>
+        <TableCell>{row.role}</TableCell>
         <TableCell>
           <IconButton aria-label="Example" onClick={handleClick}>
             <MoreVertIcon />
@@ -104,34 +84,15 @@ const Row = (props) => {
               },
             }}
           >
-            <MenuItem key={1} onClick={() => onEditClick(row)}>
-              <EditIcon color="primary" />
-              &nbsp;Edit
-            </MenuItem>
-            <MenuItem key={2} onClick={handleDelete}>
-              <DeleteIcon color="danger" />
-              &nbsp;Delete
+            <MenuItem key={2} onClick={() => handleCancel(row)}>
+              <CancelIcon color="danger" />
+              &nbsp;Cancel Booking
             </MenuItem>
           </Menu>
-        </TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                <span style={{ color: "primary" }}>Description</span>
-              </Typography>
-              <em className="bold">Cast</em> &nbsp; <em>{row.cast}</em> <br />
-              <em className="bold">Director</em> &nbsp; <em>{row.director}</em>{" "}
-              <br />
-              <em>{row.description}</em>
-            </Box>
-          </Collapse>
         </TableCell>
       </TableRow>
     </React.Fragment>
   );
 };
 
-export default MoviesTable;
+export default UserTable;
