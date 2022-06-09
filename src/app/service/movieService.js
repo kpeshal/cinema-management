@@ -12,6 +12,17 @@ export function fetchAllMovies() {
     });
 }
 
+export function fetchAllFoods() {
+  return httpService
+    .get(`${APICONSTANTS.MOVIE}/getAllFood`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      throw error;
+    });
+}
+
 export function saveMovie(data) {
   console.log(data);
   return httpService

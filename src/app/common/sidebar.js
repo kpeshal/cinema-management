@@ -35,9 +35,9 @@ const sidebarNavItems = [
   {
     display: "Orders",
     icon: <i className="bx bx-receipt"></i>,
-    to: "/order",
-    section: "order",
-    role: "user",
+    to: "/tickets",
+    section: "My Tickets",
+    role: "all",
   },
 ];
 

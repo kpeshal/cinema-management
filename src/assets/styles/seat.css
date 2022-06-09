@@ -86,6 +86,8 @@ body {
   grid-template-columns: repeat(12, 1fr);
 }
 
+
+
 .th1-seat-or{
   background-color: rgb(236, 128, 27);
   display: flex;
@@ -94,7 +96,10 @@ body {
   height: 35px;
   width: 35px;
   margin: 3px;
-  border-radius: 50%;
+ pointer-events: none;
+  font-size: medium;
+  font-weight: bold;  
+  border-radius: 30%;
 }
 
 .th1-seat-restricted{
@@ -107,15 +112,23 @@ body {
   height: 35px;
   width: 35px;
   margin: 3px;
-  border-radius: 50%;
+  font-size: medium;
+  font-weight: bold;  
+  border-radius: 30%;
 }
 
 .th1-seat-bl{
-  background-color: turquoise;
-  height: 12px;
-  width: 12px;
+  background-color: rgb(236, 128, 27);;
+  height: 35px;
+  width: 35px;
+  display: flex;
+  justify-content: center;
   margin: 3px;
-  border-radius: 50%;
+  font-size: medium;
+  font-weight: bold;  
+  border-radius: 30%;
+  border-style: solid;
+  border-color: rgb(32, 32, 31);
 }
 
 .th1-seat-gr{
@@ -127,7 +140,9 @@ body {
   height: 35px;
   width: 35px;
   margin: 3px;
-  border-radius: 50%;
+  font-size: medium;
+  font-weight: bold;  
+  border-radius: 30%;
 }
 
 .seat-row{

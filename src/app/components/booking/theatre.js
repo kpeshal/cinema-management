@@ -21,15 +21,24 @@ const createSeats = (rows, startIndex) => {
 
 const TheatreOne = (props) => {
   const [blockedSeat, setBlockedSeat] = useState([]);
-  const [bookedSeats, setBookedSeats] = useState(["1C"]);
+  const [bookedSeats, setBookedSeats] = useState([]);
   const [seats, setSeats] = useState([]);
+  // const [mySeats, setMySeats] = useState([]);
 
   const addSeat = (e) => {
-    setBookedSeats([...bookedSeats, e.target.innerText]);
+    e.preventDefault();
+    let seat = e.target.innerText;
+    if (bookedSeats.includes(seat)) {
+      setBookedSeats(bookedSeats.filter((x) => x !== seat));
+    } else {
+      setBookedSeats([...bookedSeats, seat]);
+    }
     computeAvailableSeat();
+    props.updateMyBookings(seat);
   };
 
   const getSeatCSS = (x) => {
+    if (props.mySeats.includes(x)) return "th1-seat-bl";
     if (bookedSeats.includes(x)) return "th1-seat-or";
     if (blockedSeat.includes(x)) return "th1-seat-restricted";
     return "th1-seat-gr";
@@ -73,8 +82,9 @@ const TheatreOne = (props) => {
   };
 
   const fetchBookedSeats = () => {
+    setBookedSeats([]);
     let query = {};
-    query.movieId = 2;
+    query.movieId = props.movieId;
     query.theatreName = "Theatre1";
     seatService
       .fetchAllSeatsByTheatreAndMovie(query)
@@ -86,9 +96,6 @@ const TheatreOne = (props) => {
           setBookedSeats(bookedSeats);
         }
       })
-      .finally(() => {
-        computeAvailableSeat();
-      })
       .catch((error) => {
         console.log("Error fetching seats list", error);
       });
@@ -99,48 +106,45 @@ const TheatreOne = (props) => {
     fetchBookedSeats();
   }, []);
 
+  useEffect(() => {
+    computeAvailableSeat();
+  }, [bookedSeats]);
+
   return (
-    <div className="p-5">
+    <div className="pl-5 pr-5">
+      <div className="d-flex justify-content-between">
+        <div>
+          <div className="th1-seat-gr" />
+          Available{" "}
+        </div>
+        <div>
+          <div className="th1-seat-or" />
+          Booked{" "}
+        </div>
+
+        <div>
+          <div className="th1-seat-restricted" />
+          Reserved{" "}
+        </div>
+        <div>
+          <div className="th1-seat-bl" />
+          My Selections{" "}
+        </div>
+        {/* <div>Seats Selected - {props.mySeats.join(", ")}</div> */}
+      </div>
+
       <div className="screen-container">
-        <div className="screen"></div>
+        <div className="screen d-flex pt-3 justify-content-center">
+          {props.mySeats.length ? props.mySeats.join(",") : ""}
+        </div>
         <div className="seat_section">
           {seats &&
             seats.map((x) => (
-              <div className={getSeatCSS(x)} onClick={addSeat}>
+              <div className={getSeatCSS(x)} onClick={(e) => addSeat(e)}>
                 {x}
               </div>
             ))}
         </div>
-
-        {/* <div className="seat-row">
-          <div className="th1-seat-gr"></div>
-          <div className="th1-seat-gr"></div>
-          <div className="th1-seat-gr"></div>
-          <div className="th1-seat-gr"></div>
-          <div className="th1-seat-gr"></div>
-          <div className="th1-seat-gr"></div>
-          <div className="th1-seat-gr"></div>
-          <div className="th1-seat-gr"></div>
-          <div className="th1-seat-gr"></div>
-          <div>&nbsp;</div>
-          <div>&nbsp;</div>
-          <div>&nbsp;</div>
-          <div>&nbsp;</div>
-          <div>&nbsp;</div>
-          <div>&nbsp;</div>
-          <div>&nbsp;</div>
-          <div>&nbsp;</div>
-          <div>&nbsp;</div>
-          <div className="th1-seat-gr"></div>
-          <div className="th1-seat-gr"></div>
-          <div className="th1-seat-gr"></div>
-          <div className="th1-seat-gr"></div>
-          <div className="th1-seat-gr"></div>
-          <div className="th1-seat-gr"></div>
-          <div className="th1-seat-gr"></div>
-          <div className="th1-seat-gr"></div>
-          <div className="th1-seat-gr"></div>
-        </div> */}
       </div>
       <br />
     </div>
